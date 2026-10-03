@@ -1,0 +1,16 @@
+---
+- name: Deploy Docker application
+  hosts: local
+  become: false
+
+  tasks:
+
+    - name: Stop old container
+      command: docker rm -f cicd-container
+      ignore_errors: yes
+
+    - name: Start new container
+      command: docker run -d -p 8081:80 --name cicd-container cicd-app:latest
+
+    - name: Show running containers
+      command: docker ps
